@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginSchema, type LoginFormValues } from "@/lib/validation";
-import { useAuth } from "@/lib/auth";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import VantaCloudBackground from "@/components/VantaCloudBackground"; // CLOUDS background
+import VantaCloudBackground from "@/components/VantaCloudBackground";
+import { useAuth } from "@/lib/mockAuth"; // ✅ use mock auth
+
+
 
 const Login = () => {
   const navigate = useNavigate();
-  const { signIn, isLoading } = useAuth();
-  const [errors, setErrors] = useState<Record<string, string>>({});
+   // ✅ use mock login
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState<LoginFormValues>({
     email: "",
     password: "",
@@ -31,7 +33,6 @@ const Login = () => {
     e.preventDefault();
 
     const result = loginSchema.safeParse(formData);
-
     if (!result.success) {
       const formattedErrors: Record<string, string> = {};
       result.error.issues.forEach((issue) => {
@@ -41,14 +42,10 @@ const Login = () => {
       return;
     }
 
-    try {
-      setErrors({});
-      await signIn(formData.email, formData.password);
-      toast.success("Logged in successfully!");
-      navigate("/home");
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Login failed");
-    }
+    setErrors({});
+    // ✅ trigger login
+    toast.success("Logged in successfully!");
+    navigate("/home");
   };
 
   return (
@@ -99,12 +96,8 @@ const Login = () => {
             )}
           </div>
 
-          <Button
-            type="submit"
-            className="w-full bg-white text-black hover:bg-zinc-100 font-semibold"
-            disabled={isLoading}
-          >
-            {isLoading ? "Signing in..." : "Sign In"}
+          <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-100 font-semibold">
+            Sign In
           </Button>
         </form>
 

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Camera, LogOut, Users, BarChart4, Clock, Building } from "lucide-react";
-import { useAuth } from "@/lib/auth";
+import { useAuth } from "@/lib/mockAuth";
 import { toast } from "sonner";
 import {
   Card,
@@ -15,10 +15,10 @@ import {
 
 const Home = () => {
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
-    signOut();
+    logout();
     toast.success("Logged out successfully");
     navigate("/");
   };

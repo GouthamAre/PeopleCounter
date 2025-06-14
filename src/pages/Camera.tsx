@@ -5,7 +5,7 @@ import { ArrowLeft, LogOut, VideoOff, Video } from "lucide-react";
 import CameraView from "@/components/CameraView";
 import Statistics from "@/components/Statistics";
 import { motion } from "framer-motion";
-import { useAuth } from "@/lib/auth";
+import { useAuth } from "@/lib/mockAuth";
 import { toast } from "sonner";
 
 const Camera = () => {
@@ -15,7 +15,7 @@ const Camera = () => {
   const [maleCount, setMaleCount] = useState(0);
   const [femaleCount, setFemaleCount] = useState(0);
   const [isFighting, setIsFighting] = useState(false);
-  const { signOut } = useAuth();
+  
 
   const toggleCamera = () => {
     setIsActive((prev) => !prev);
@@ -40,7 +40,7 @@ const Camera = () => {
   };
 
   const handleLogout = () => {
-    signOut();
+    
     toast.success("Logged out successfully");
     navigate("/");
   };

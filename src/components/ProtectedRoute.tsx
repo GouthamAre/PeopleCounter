@@ -1,7 +1,9 @@
 
 import { Navigate } from "react-router-dom";
-import { useAuth } from "@/lib/auth";
+import { useAuth } from "@/lib/mockAuth";
 import { ReactNode } from "react";
+
+
 
 type ProtectedRouteProps = {
   children: ReactNode;

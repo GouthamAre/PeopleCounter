@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { signupSchema, type SignupFormValues } from "@/lib/validation";
-import { useAuth } from "@/lib/auth";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import VantaCloudBackground from "@/components/VantaCloudBackground";
+import { useAuth } from "@/lib/mockAuth"; // ✅ use mock auth
+
+
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { signUp, isLoading } = useAuth();
-  const [errors, setErrors] = useState<Record<string, string>>({});
+   // ✅ just use login to simulate sign-up success
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState<SignupFormValues>({
     name: "",
     email: "",
@@ -33,7 +35,6 @@ const Signup = () => {
     e.preventDefault();
 
     const result = signupSchema.safeParse(formData);
-
     if (!result.success) {
       const formattedErrors: Record<string, string> = {};
       result.error.issues.forEach((issue) => {
@@ -43,14 +44,10 @@ const Signup = () => {
       return;
     }
 
-    try {
-      setErrors({});
-      await signUp(formData.email, formData.password, formData.name);
-      toast.success("Account created successfully!");
-      navigate("/home");
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Signup failed");
-    }
+    setErrors({});
+     // ✅ simulate account creation
+    toast.success("Account created successfully!");
+    navigate("/home");
   };
 
   return (
@@ -136,9 +133,8 @@ const Signup = () => {
           <Button
             type="submit"
             className="w-full bg-white text-black hover:bg-zinc-100 font-semibold"
-            disabled={isLoading}
           >
-            {isLoading ? "Creating Account..." : "Create Account"}
+            Create Account
           </Button>
         </form>
 

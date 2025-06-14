@@ -2,13 +2,20 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { LogIn, UserPlus } from "lucide-react";
-import { useAuth } from "@/lib/auth";
+
+import { useAuth } from "@/lib/mockAuth";
+
+
+
 import { useEffect } from "react";
 import VantaCloudBackground from "@/components/VantaCloudBackground"; // CLOUDS background
 
 const Index = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+ 
+
+const { user } = useAuth(); // ✅ get user from mock auth
+
 
   useEffect(() => {
     if (user) {
