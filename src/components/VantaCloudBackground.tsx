@@ -1,6 +1,4 @@
-// src/components/VantaCloudBackground.tsx
 import { useEffect, useRef, useState } from "react";
-import CLOUDS from "vanta/dist/vanta.clouds.min";
 import * as THREE from "three";
 
 const VantaCloudBackground = () => {
@@ -8,31 +6,35 @@ const VantaCloudBackground = () => {
   const [vantaEffect, setVantaEffect] = useState<any>(null);
 
   useEffect(() => {
-    if (!vantaEffect) {
-      setVantaEffect(
-        CLOUDS({
+    const loadVanta = async () => {
+      const CLOUDS = (await import("vanta/src/vanta.clouds"))?.default;
+      if (!vantaEffect && vantaRef.current) {
+        const effect = CLOUDS({
           el: vantaRef.current,
           THREE,
           mouseControls: true,
           touchControls: true,
           minHeight: 200.0,
           minWidth: 200.0,
-          skyColor: 0xcceeff,
+          skyColor: 0x87ceeb,
           cloudColor: 0xffffff,
-          cloudShadowColor: 0x999999,
-          sunColor: 0xffddcc,
+          cloudShadowColor: 0xaaaaaa,
+          sunColor: 0xffdd33,
           sunGlareColor: 0xffaa33,
           sunlightColor: 0xffee88,
-          speed: 1.0,
-        })
-      );
-    }
+        });
+        setVantaEffect(effect);
+      }
+    };
+
+    loadVanta();
+
     return () => {
       if (vantaEffect) vantaEffect.destroy();
     };
   }, [vantaEffect]);
 
-  return <div ref={vantaRef} className="absolute inset-0 -z-10" />;
+  return <div ref={vantaRef} className="w-full h-screen" />;
 };
 
 export default VantaCloudBackground;
